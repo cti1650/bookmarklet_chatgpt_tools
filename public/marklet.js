@@ -44,8 +44,9 @@ window.mklet_chatgpt_tools = (d, slackToken, slackChannel) => {
       ...lastResultElement.querySelector(".markdown").childNodes,
     ]
       .map((item) => {
-        if (item.querySelector("pre code")) {
-          return '```' + `\n${item.textContent}\n` + '```';
+        const code = item.querySelector("pre code");
+        if (code) {
+          return '```' + `\n${code.textContent}\n` + '```';
         }
         return item.textContent;
       })
