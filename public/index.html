@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Bookmarklet Tools</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+  <body>
+    <!-- React の CDN を読み込む -->
+    <script
+      crossorigin
+      src="https://unpkg.com/react@17/umd/react.development.js"
+    ></script>
+    <script
+      crossorigin
+      src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"
+    ></script>
+    <script src="https://unpkg.com/babel-standalone@6.26.0/babel.js"></script>
+
+    <!-- レンダリングする要素を作成する -->
+    <div id="root"></div>
+    <!-- スクリプトを記述する -->
+    <script type="text/babel">
+            // コンポーネントを定義する
+            const SlackToken = ({ token, onChangeToken }) => {
+              return (
+                <div className="flex items-center">
+                  <div className="flex-none w-[120px]">SlackToken : </div>
+                  <input
+                    type="text"
+                    value={token}
+                    onChange={(e) => onChangeToken(e.target.value)}
+                    className="w-full block border rounded m-2 p-1"
+                  />
+                </div>
+              );
+            };
+
+            const SlackChannel = ({ channel, onChangeChannel }) => {
+              return (
+                <div className="flex items-center">
+                  <div className="flex-none w-[120px]">SlackChannel : </div>
+                  <input
+                    type="text"
+                    value={channel}
+                    onChange={(e) => onChangeChannel(e.target.value)}
+                    className="w-full block border rounded m-2 p-1"
+                  />
+                </div>
+              );
+            };
+
+            const MarkletLink = ({ title, url }) => {
+              return <a href={url} className="p-2 text-center border bg-gray-100 shadow rounded">{title}</a>;
+            };
+
+            const App = () => {
+              const [token, setToken] = React.useState("");
+              const [channel, setChannel] = React.useState("");
+              const MarkletUrlMaker = React.useCallback(() => {
+                return `javascript:(function() {
+        const url = './marklet.js';
+        const script = document.createElement('script');
+        script.src = url;
+        document.body.appendChild(script);
+        script.addEventListener('load', () => {
+          window.mklet_chatgpt_tools(document,'${token}','${channel}');
+          console.log('外部ファイルを読み込みました');
+          console.log('token', '${token}');
+          console.log('channel', '${channel}')
+        });
+      })();`
+                  .replace("\n", "")
+                  .replace(/\s/, "")
+                  .trim();
+              }, [token, channel]);
+              console.log(MarkletUrlMaker(token, channel));
+              console.log("token", token);
+              return (
+                <div className="m-4 flex flex-col p-4 space-y-4 max-w-2xl mx-auto">
+                  <h1 className="text-2xl mb-4">Bookmarklet Tools</h1>
+                  <SlackToken token={token} onChangeToken={setToken} />
+                  <SlackChannel channel={channel} onChangeChannel={setChannel} />
+                  <MarkletLink
+                    title="ChatGPT Tool"
+                    url={MarkletUrlMaker(token, channel)}
+                  />
+                  <div className="react-scroll-to-bottom">
+                    <div className="flex flex-col">
+                      <div className="border-b bg-gray-50">
+                        Request Sample
+                      </div>
+                      <div className="border-b bg-gray-50">
+                        <div className="markdown">
+                          <p>Result Sample</p>
+                          <pre><code className="!whitespace-pre-wrap hljs language-javascript">test</code></pre>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              );
+            };
+
+            // コンポーネントをレンダリングする
+            ReactDOM.render(<App />, document.getElementById("root"));
+    </script>
+  </body>
+</html>
