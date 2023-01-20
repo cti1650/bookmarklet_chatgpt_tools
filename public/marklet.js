@@ -60,7 +60,7 @@ window.mklet_chatgpt_tools = (d, slackToken, slackChannel) => {
     return data;
   };
   const parent = document.querySelector("form > div.relative");
-  if(parent.attributes["mklet-btn-append"]){
+  if(!parent.attributes["mklet-btn-append"]){
     var div = document.createElement("div");
     div.class = "flex justify-center";
     var button = document.createElement("button");
