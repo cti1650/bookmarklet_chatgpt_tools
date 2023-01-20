@@ -64,6 +64,7 @@ window.mklet_chatgpt_tools = (d, slackToken, slackChannel) => {
     mutations.forEach(function (mutation) {
       mutation.addedNodes.forEach(function (node) {
         if (node.matches("div.bg-gray-50")) {
+          console.log("reload", node)
           if(node.parentElement.attributes["mklet-btn-append"])return;
           var button = document.createElement("button");
           button.innerHTML = "Copy";
