@@ -1,4 +1,6 @@
 window.mklet_chatgpt_tools = (d, slackToken, slackChannel) => {
+  window.mklet_chatgpt_tools_slackToken = slackToken;
+  window.mklet_chatgpt_tools_slackChannel = slackChannel;
   window.mklet_chatgpt_tools_copyText = (text) => {
     if (!text) return;
     const textArea = document.createElement("textarea");
@@ -68,8 +70,8 @@ window.mklet_chatgpt_tools = (d, slackToken, slackChannel) => {
     button.className = "border px-4 py-1 rounded";
     button.onclick = () => {
       const data = window.mklet_chatgpt_tools_parseChatGPT();
-      if (slackToken && slackChannel) {
-        window.mklet_chatgpt_tools_sendToSlack(slackToken, slackChannel, data?.text);
+      if (window.mklet_chatgpt_tools_slackToken && window.mklet_chatgpt_tools_slackChannel) {
+        window.mklet_chatgpt_tools_sendToSlack(window.mklet_chatgpt_tools_slackToken, window.mklet_chatgpt_tools_slackChannel, data?.text);
       } else {
         window.mklet_chatgpt_tools_copyText(data?.text);
         alert("クリップボードに保存しました: " + data?.text);
