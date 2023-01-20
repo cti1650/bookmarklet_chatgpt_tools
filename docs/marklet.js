@@ -13,6 +13,7 @@ window.mklet_chatgpt_tools = (d, slackToken, slackChannel) => {
   window.mklet_chatgpt_tools_sendToSlack = (slackToken, slackChannel, text) => {
     // 投稿する内容を設定する
     const message = {
+      token: slackToken,
       channel: slackChannel,
       text: text,
     };
@@ -27,9 +28,6 @@ window.mklet_chatgpt_tools = (d, slackToken, slackChannel) => {
     fetch(endpoint, {
       method: "post",
       mode: "no-cors",
-      headers: {
-        Authorization: `Bearer ${slackToken}`,
-      },
       body: formData,
     });
   };
