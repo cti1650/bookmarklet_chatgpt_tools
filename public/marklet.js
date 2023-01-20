@@ -60,7 +60,7 @@ window.mklet_chatgpt_tools = (d, slackToken, slackChannel) => {
     return data;
   };
   var target = document.querySelector("[class*=react-scroll-to-bottom--css-] > div.flex");
-  var observer = new MutationObserver(function (mutations) {
+  window.mklet_chatgpt_observer = new MutationObserver(function (mutations) {
     mutations.forEach(function (mutation) {
       mutation.addedNodes.forEach(function (node) {
         if (node.matches("div.bg-gray-50")) {
@@ -83,5 +83,5 @@ window.mklet_chatgpt_tools = (d, slackToken, slackChannel) => {
       });
     });
   });
-  observer.observe(target, { childList: true });
+  window.mklet_chatgpt_observer.observe(target, { childList: true });
 };
