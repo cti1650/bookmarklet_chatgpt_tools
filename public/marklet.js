@@ -59,7 +59,6 @@ window.mklet_chatgpt_tools = (d, slackToken, slackChannel) => {
     };
     return data;
   };
-  var target = document.querySelector("[class*=react-scroll-to-bottom--css-] > div.flex");
   window.mklet_chatgpt_observer = new MutationObserver(function (mutations) {
     mutations.forEach(function (mutation) {
       mutation.addedNodes.forEach(function (node) {
@@ -83,5 +82,5 @@ window.mklet_chatgpt_tools = (d, slackToken, slackChannel) => {
       });
     });
   });
-  window.mklet_chatgpt_observer.observe(target, { childList: true });
+  window.mklet_chatgpt_observer.observe(document.querySelector("[class*=react-scroll-to-bottom--css-] > div.flex"), { childList: true });
 };
