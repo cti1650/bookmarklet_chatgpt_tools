@@ -62,11 +62,11 @@ window.mklet_chatgpt_tools = (d, slackToken, slackChannel) => {
   const parent = document.querySelector("form > div.relative");
   if(!parent.attributes["mklet-btn-append"]){
     const div = document.createElement("div");
-    div.class = "flex justify-center";
+    div.className = "flex justify-center";
     const button = document.createElement("button");
     button.innerHTML = "Copy";
-    button.class = "border px-4 py-1 rounded";
-    button.onClick = () => {
+    button.className = "border px-4 py-1 rounded";
+    button.onclick = () => {
       const data = window.mklet_chatgpt_tools_parseChatGPT();
       if (slackToken && slackChannel) {
         window.mklet_chatgpt_tools_sendToSlack(slackToken, slackChannel, data?.text);
