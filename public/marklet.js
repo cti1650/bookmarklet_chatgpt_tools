@@ -59,11 +59,11 @@ window.mklet_chatgpt_tools = (d, slackToken, slackChannel) => {
     };
     return data;
   };
-  var target = document.querySelector("form");
+  var target = document.querySelector("[class*=react-scroll-to-bottom--css-] > div.flex");
   var observer = new MutationObserver(function (mutations) {
     mutations.forEach(function (mutation) {
       mutation.addedNodes.forEach(function (node) {
-        if (node.matches("button[class*=btn-neutral]")) {
+        if (node.matches("div.bg-gray-50")) {
           if(node.parentElement.attributes["mklet-btn-append"])return;
           var button = document.createElement("button");
           button.innerHTML = "Copy";
