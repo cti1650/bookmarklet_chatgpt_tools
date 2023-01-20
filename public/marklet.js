@@ -1,5 +1,5 @@
 window.mklet_chatgpt_tools = (d, slackToken, slackChannel) => {
-  const copyText = (text) => {
+  window.mklet_chatgpt_tools_copyText = (text) => {
     if (!text) return;
     const textArea = document.createElement("textarea");
     textArea.value = text;
@@ -8,7 +8,7 @@ window.mklet_chatgpt_tools = (d, slackToken, slackChannel) => {
     document.execCommand("copy");
     document.body.removeChild(textArea);
   };
-  const sendToSlack = (slackToken, slackChannel, text) => {
+  window.mklet_chatgpt_tools_sendToSlack = (slackToken, slackChannel, text) => {
     // 投稿する内容を設定する
     const message = {
       channel: slackChannel,
@@ -31,7 +31,7 @@ window.mklet_chatgpt_tools = (d, slackToken, slackChannel) => {
       body: formData,
     });
   };
-  const parseChatGPT = () => {
+  window.mklet_chatgpt_tools_parseChatGPT = () => {
     const resultsElements = [
       ...document.querySelectorAll(
         "[class*=react-scroll-to-bottom] > .flex > div.border-b.bg-gray-50"
@@ -67,11 +67,11 @@ window.mklet_chatgpt_tools = (d, slackToken, slackChannel) => {
     button.innerHTML = "Copy";
     button.class = "border px-4 py-1 rounded";
     button.onClick = () => {
-      const data = parseChatGPT();
+      const data = window.mklet_chatgpt_tools_parseChatGPT();
       if (slackToken && slackChannel) {
-        sendToSlack(slackToken, slackChannel, data?.text);
+        window.mklet_chatgpt_tools_sendToSlack(slackToken, slackChannel, data?.text);
       } else {
-        copyText(data?.text);
+        window.mklet_chatgpt_tools_copyText(data?.text);
         alert("クリップボードに保存しました: " + data?.text);
       }
     }
