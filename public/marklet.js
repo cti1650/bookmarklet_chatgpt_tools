@@ -59,28 +59,48 @@ window.mklet_chatgpt_tools = (d, slackToken, slackChannel) => {
     };
     return data;
   };
-  window.mklet_chatgpt_observer = new MutationObserver(function (mutations) {
-    mutations.forEach(function (mutation) {
-      mutation.addedNodes.forEach(function (node) {
-        if (node.matches("div.bg-gray-50")) {
-          console.log("reload", node)
-          if(node.parentElement.attributes["mklet-btn-append"])return;
-          var button = document.createElement("button");
-          button.innerHTML = "Copy";
-          button.onClick = () => {
-            const data = parseChatGPT();
-            if (slackToken && slackChannel) {
-              sendToSlack(slackToken, slackChannel, data?.text);
-            } else {
-              copyText(data?.text);
-              alert("クリップボードに保存しました: " + data?.text);
-            }
-          }
-          node.parentElement.setAttribute("mklet-btn-append",true);
-          node.parentElement.appendChild(button);
-        }
-      });
-    });
-  });
-  window.mklet_chatgpt_observer.observe(document.querySelector("[class*=react-scroll-to-bottom--css-] > div.flex"), { childList: true });
+  const parent = document.querySelector("form > div.relative");
+  if(parent.attributes["mklet-btn-append"]){
+    var div = document.createElement("div");
+    div.class = "flex justify-center";
+    var button = document.createElement("button");
+    button.innerHTML = "Copy";
+    button.class = "border px-4 py-1 rounded";
+    button.onClick = () => {
+      const data = parseChatGPT();
+      if (slackToken && slackChannel) {
+        sendToSlack(slackToken, slackChannel, data?.text);
+      } else {
+        copyText(data?.text);
+        alert("クリップボードに保存しました: " + data?.text);
+      }
+    }
+    parent.setAttribute("mklet-btn-append",true);
+    div.appendChild(button);
+    parent.appendChild(div);
+  };
+//   window.mklet_chatgpt_observer = new MutationObserver(function (mutations) {
+//     mutations.forEach(function (mutation) {
+//       mutation.addedNodes.forEach(function (node) {
+//         if (node.matches("div.bg-gray-50")) {
+//           console.log("reload", node)
+//           if(node.parentElement.attributes["mklet-btn-append"])return;
+//           var button = document.createElement("button");
+//           button.innerHTML = "Copy";
+//           button.onClick = () => {
+//             const data = parseChatGPT();
+//             if (slackToken && slackChannel) {
+//               sendToSlack(slackToken, slackChannel, data?.text);
+//             } else {
+//               copyText(data?.text);
+//               alert("クリップボードに保存しました: " + data?.text);
+//             }
+//           }
+//           node.parentElement.setAttribute("mklet-btn-append",true);
+//           node.parentElement.appendChild(button);
+//         }
+//       });
+//     });
+//   });
+//   window.mklet_chatgpt_observer.observe(document.querySelector("[class*=react-scroll-to-bottom--css-] > div.flex"), { childList: true });
 };
