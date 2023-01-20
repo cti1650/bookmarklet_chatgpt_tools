@@ -61,9 +61,9 @@ window.mklet_chatgpt_tools = (d, slackToken, slackChannel) => {
   };
   const parent = document.querySelector("form > div.relative");
   if(!parent.attributes["mklet-btn-append"]){
-    var div = document.createElement("div");
+    const div = document.createElement("div");
     div.class = "flex justify-center";
-    var button = document.createElement("button");
+    const button = document.createElement("button");
     button.innerHTML = "Copy";
     button.class = "border px-4 py-1 rounded";
     button.onClick = () => {
