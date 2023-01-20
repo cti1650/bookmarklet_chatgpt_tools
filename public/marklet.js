@@ -76,7 +76,7 @@ window.mklet_chatgpt_tools = (d, slackToken, slackChannel) => {
               alert("クリップボードに保存しました: " + data?.text);
             }
           }
-          node.parentElement.setAttribute("mklet-btn-append");
+          node.parentElement.setAttribute("mklet-btn-append",true);
           node.parentElement.appendChild(button);
         }
       });
