@@ -12,24 +12,24 @@ window.mklet_chatgpt_tools = (d, slackToken, slackChannel) => {
     // 投稿する内容を設定する
     const message = {
       channel: slackChannel,
-      text: text
+      text: text,
     };
     const formData = new FormData();
-    Object.keys(message).forEach(key=>{
+    Object.keys(message).forEach((key) => {
       formData.append(key, message[key]);
-    })
+    });
 
     // Slack API のエンドポイントを指定する
     const endpoint = "https://slack.com/api/chat.postMessage";
 
-    fetch(endpoint,{
-      method:"post",
-      mode:'no-cors',
-      headers:{
-        "Authorization":`Bearer ${slackToken}`
+    fetch(endpoint, {
+      method: "post",
+      mode: "no-cors",
+      headers: {
+        Authorization: `Bearer ${slackToken}`,
       },
-      body:formData
-    })
+      body: formData,
+    });
   };
   const parseChatGPT = () => {
     const resultsElements = [
@@ -46,7 +46,7 @@ window.mklet_chatgpt_tools = (d, slackToken, slackChannel) => {
       .map((item) => {
         const code = item.querySelector("pre code");
         if (code) {
-          return '```' + `\n${code.textContent}\n` + '```';
+          return "```" + `\n${code.textContent}\n` + "```";
         }
         return item.textContent;
       })
@@ -59,11 +59,28 @@ window.mklet_chatgpt_tools = (d, slackToken, slackChannel) => {
     };
     return data;
   };
-  const data = parseChatGPT();
-  if (slackToken && slackChannel) {
-    sendToSlack(slackToken,slackChannel,data?.text)
-  } else {
-    copyText(data?.text);
-    alert("クリップボードに保存しました: " + data?.text);
-  }
+  var target = document.querySelector("form");
+  var observer = new MutationObserver(function (mutations) {
+    mutations.forEach(function (mutation) {
+      mutation.addedNodes.forEach(function (node) {
+        if (node.matches("button[class*=btn-neutral]")) {
+          if(node.parentElement.attributes["mklet-btn-append"])return;
+          var button = document.createElement("button");
+          button.innerHTML = "Copy";
+          button.onClick = () => {
+            const data = parseChatGPT();
+            if (slackToken && slackChannel) {
+              sendToSlack(slackToken, slackChannel, data?.text);
+            } else {
+              copyText(data?.text);
+              alert("クリップボードに保存しました: " + data?.text);
+            }
+          }
+          node.parentElement.setAttribute("mklet-btn-append");
+          node.parentElement.appendChild(button);
+        }
+      });
+    });
+  });
+  observer.observe(target, { childList: true });
 };
