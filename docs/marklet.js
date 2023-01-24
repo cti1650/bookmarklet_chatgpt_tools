@@ -52,11 +52,11 @@ window.mklet_chatgpt_tools = (d, slackToken, slackChannel) => {
           let count = Number(item?.getAttribute('start') ?? 1);
           console.log(count);
           const liTextList = [...item.querySelectorAll("li")].map((item, index) => {
-            return `\n${count + index}. ${item.textContent}\n`;
+            return `${count + index}. ${item.textContent}  `;
           });
           return `${liTextList.join("\n")}\n`;
         }
-        return item.textContent;
+        return `${item.textContent}  `;
       })
       .join("\n");
     const lastRequest = lastRequestElement.textContent;
