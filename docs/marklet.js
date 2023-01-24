@@ -34,7 +34,7 @@ window.mklet_chatgpt_tools = (d, slackToken, slackChannel) => {
   window.mklet_chatgpt_tools_parseChatGPT = () => {
     const resultsElements = [
       ...document.querySelectorAll(
-        "[class*=react-scroll-to-bottom] > .flex > div.border-b.bg-gray-50"
+        ".flex > div.border-b.bg-gray-50"
       ),
     ];
     const lastResultElement = resultsElements[resultsElements.length - 1];
