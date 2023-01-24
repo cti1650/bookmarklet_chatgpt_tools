@@ -54,7 +54,7 @@ window.mklet_chatgpt_tools = (d, slackToken, slackChannel) => {
           const liTextList = [...item.querySelectorAll("li")].map((item, index) => {
             return `\n${count + index}. ${item.textContent}\n`;
           });
-          return `${liTextList}\n`;
+          return `${liTextList.join("\n")}\n`;
         }
         return item.textContent;
       })
