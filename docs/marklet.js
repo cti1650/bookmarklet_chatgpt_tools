@@ -50,9 +50,14 @@ window.mklet_chatgpt_tools = (d, slackToken, slackChannel) => {
         }
         if(item.tagName === "OL"){
           let count = Number(item?.getAttribute('start') ?? 1);
-          console.log(count);
           const liTextList = [...item.querySelectorAll("li")].map((item, index) => {
             return `${count + index}. ${item.textContent}  `;
+          });
+          return `${liTextList.join("\n")}\n`;
+        }
+        if(item.tagName === "UL"){
+          const liTextList = [...item.querySelectorAll("li")].map((item, index) => {
+            return `- ${item.textContent}  `;
           });
           return `${liTextList.join("\n")}\n`;
         }
