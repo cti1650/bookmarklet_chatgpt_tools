@@ -61,6 +61,24 @@ window.mklet_chatgpt_tools = (d, slackToken, slackChannel) => {
           });
           return `${liTextList.join("\n")}\n`;
         }
+        if (item.tagName === "TABLE") {
+          const headTextList = [...item.querySelectorAll("thead > tr > th")].map(
+            (item, index) => {
+              return item.textContent
+            }
+          )
+          const separate = headTextList.map(v=>":-").join("|")
+          const rowTextList = [...item.querySelectorAll("tbody > tr")].map(
+            (row, index) => {
+              return [...row.querySelectorAll("td")].map(
+                (item, index) => {
+                  return item.textContent
+                }
+              ).join("|")
+            }
+          ).join("\n")
+          return `\n${headTextList.join("|")}\n${separate}\n${rowTextList}\n`
+        }
         return `${item.textContent}  `;
       })
       .join("\n");
